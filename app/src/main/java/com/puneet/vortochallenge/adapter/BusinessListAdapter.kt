@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.puneet.vortochallenge.R
 import com.puneet.vortochallenge.data.model.Businesse
 
-class BusinessListAdapter(val context: Context, val listOfBusinesses: List<Businesse>) :
+class BusinessListAdapter(val context: Context, var listOfBusinesses: List<Businesse>) :
     RecyclerView.Adapter<BusinessListAdapter.BusinessItemVH>() {
 
     var itemClick: ((Int) -> Unit)? = null
@@ -64,5 +64,9 @@ class BusinessListAdapter(val context: Context, val listOfBusinesses: List<Busin
     override fun onBindViewHolder(holder: BusinessItemVH, position: Int) {
         Log.e("PuneetChugh", "OnBindViewHolder() callled...")
         holder.bindView(holder, position)
+    }
+
+    fun addData(listOfBusinessesLocal: List<Businesse>){
+        listOfBusinesses = listOfBusinessesLocal
     }
 }

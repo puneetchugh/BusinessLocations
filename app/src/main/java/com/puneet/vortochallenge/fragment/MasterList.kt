@@ -23,6 +23,7 @@ import com.puneet.vortochallenge.constants.LOCATION_UPDATE_FREQ
 import com.puneet.vortochallenge.constants.SHOWLOCATION_FRAGMENT
 import com.puneet.vortochallenge.constants.SHOWLOCATION_FRAGMENT_STACK
 import com.puneet.vortochallenge.data.model.BusinessData
+import com.puneet.vortochallenge.data.model.Businesse
 import com.puneet.vortochallenge.view_model.MasterViewModel
 import com.puneet.vortochallenge.view_model.ViewModelFactory
 
@@ -37,22 +38,13 @@ class MasterList : Fragment(), LocationListener {
     private lateinit var viewModelFactory: ViewModelFactory
     lateinit var viewModel: MasterViewModel
     lateinit var rootView: View
+    lateinit var businessListAdapter: BusinessListAdapter
 
     private val businessDataObserver = Observer<BusinessData> { businessData ->
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        recyclerView.adapter =
-            BusinessListAdapter(this.requireContext(), businessData.businesses).apply {
-                itemClick = {
-                    Log.e(LOG_TAG, "Inside MasterList()...itemClick....$it")
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(
-                            R.id.id_main_container,
-                            ShowLocation.instance(it),
-                            SHOWLOCATION_FRAGMENT
-                        )
-                        .addToBackStack(SHOWLOCATION_FRAGMENT_STACK).commit()
-                }
-            }
+        //TODO : Add DiffUtils for efficient comparison of old and new data.
+        (recyclerView.adapter as BusinessListAdapter).addData(businessData.businesses)
+        (recyclerView.adapter as BusinessListAdapter).notifyDataSetChanged()
 
         businessData.businesses.forEach {
             Log.d(LOG_TAG, "BusinessName ${it.name}")
@@ -89,6 +81,7 @@ class MasterList : Fragment(), LocationListener {
         super.onCreate(savedInstanceState)
         viewModelFactory = ViewModelFactory()
         Log.d(LOG_TAG, "Inside MasterList()..onCreate() called..")
+
     }
 
     override fun onCreateView(
@@ -121,10 +114,24 @@ class MasterList : Fragment(), LocationListener {
             this.requireActivity(),
             viewModelFactory
         ).get(MasterViewModel::class.java)
-        viewModel.businessData.observe(requireActivity(), businessDataObserver)
         recyclerView = rootView.findViewById(R.id.id_recyclerview)
         searchView = rootView.findViewById(R.id.id_searchview)
         searchView.setOnQueryTextListener(onQueryListener)
+
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        recyclerView.adapter = BusinessListAdapter(requireContext(), listOf()).apply {
+            itemClick = {
+                Log.d(LOG_TAG, "Inside MasterList()...itemClick....$it")
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.id_main_container,
+                        ShowLocation.instance(it),
+                        SHOWLOCATION_FRAGMENT
+                    )
+                    .addToBackStack(SHOWLOCATION_FRAGMENT_STACK).commit()
+            }
+        }
+        viewModel.businessData.observe(requireActivity(), businessDataObserver)
     }
 
     @SuppressLint("MissingPermission")
