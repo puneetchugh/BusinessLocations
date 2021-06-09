@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="searchview_margin">16dp</dimen>
+    <dimen name="searchview_height">30dp</dimen>
+    <dimen name="recyclerview_padding">8dp</dimen>
+</resources>

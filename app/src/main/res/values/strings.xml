@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">VortoChallenge</string>
+    <string name="search_hint">Type to search (like deli, thai, etc)</string>
+    <string name="closed">Closed</string>
+    <string name="open">Open</string>
+    <string name="issue_with_map">Maps error !!</string>
+    <string name="permission_denied">The app needs Location permission to work. Go to settings and enable it</string>
+</resources>
