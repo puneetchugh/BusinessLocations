@@ -1,0 +1,11 @@
+package com.puneet.vortochallenge.constants
+
+const val ACURACY_ALPHA = .9f
+const val ELEVATION = 1f
+const val MAP_ZOOM: Double = 10.0
+const val LOCATION_UPDATE_FREQ = 5000 //in milli seconds
+
+const val MASTERLIST_FRAGMENT = "MASTERLIST_FRAGMENT"
+const val MASTERLIST_FRAGMENT_STACK = "MASTERLIST_FRAGMENT_STACK"
+const val SHOWLOCATION_FRAGMENT = "SHOWLOCATION_FRAGMENT"
+const val SHOWLOCATION_FRAGMENT_STACK = "SHOWLOCATION_FRAGMENT_STACK"
